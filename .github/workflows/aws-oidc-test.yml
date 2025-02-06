@@ -34,10 +34,6 @@ jobs:
           echo "This is a test file" > testfile.txt
           aws s3 cp testfile.txt s3://s3-oidc-cicd/
 
-      - name: Retrieve AWS Secrets
-        run: |
-          aws secretsmanager get-secret-value --secret-id your-secret-name --query SecretString --output text
-
       - name: Deploy AWS Lambda Function
         run: |
           zip lambda_function.zip lambda_function.py
