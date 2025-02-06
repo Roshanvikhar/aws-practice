@@ -32,7 +32,7 @@ jobs:
       - name: Upload a File to S3
         run: |
           echo "This is a test file" > testfile.txt
-          aws s3 cp testfile.txt s3://your-s3-bucket-name/
+          aws s3 cp testfile.txt s3://s3-oidc-cicd/
 
       - name: Retrieve AWS Secrets
         run: |
