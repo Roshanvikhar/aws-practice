@@ -1,0 +1,30 @@
+name: AWS OIDC Integration Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  aws-oidc-test:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write  # Required for OIDC authentication
+      contents: read   # Allows reading the repo contents
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::703671897239:role/OIDC-GitHub
+          aws-region: us-east-1  # Change to your preferred region
+
+      - name: Verify AWS Authentication
+        run: aws sts get-caller-identity
+
+      - name: List S3 Buckets (Test)
+        run: aws s3 ls
