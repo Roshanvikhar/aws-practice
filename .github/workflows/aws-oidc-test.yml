@@ -1,4 +1,4 @@
-name: AWS OIDC Integration Test
+name: AWS OIDC Advanced Workflow
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  aws-oidc-test:
+  aws-oidc-advanced:
     runs-on: ubuntu-latest
 
     permissions:
@@ -26,5 +26,19 @@ jobs:
       - name: Verify AWS Authentication
         run: aws sts get-caller-identity
 
-      - name: List S3 Buckets (Test)
+      - name: List S3 Buckets
         run: aws s3 ls
+
+      - name: Upload a File to S3
+        run: |
+          echo "This is a test file" > testfile.txt
+          aws s3 cp testfile.txt s3://your-s3-bucket-name/
+
+      - name: Retrieve AWS Secrets
+        run: |
+          aws secretsmanager get-secret-value --secret-id your-secret-name --query SecretString --output text
+
+      - name: Deploy AWS Lambda Function
+        run: |
+          zip lambda_function.zip lambda_function.py
+          aws lambda update-function-code --function-name your-lambda-function-name --zip-file fileb://lambda_function.zip
